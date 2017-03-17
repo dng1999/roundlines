@@ -85,28 +85,20 @@ def parse_file( fname, edges, transform, screen, color ):
 
         elif line == 'circle':
             print 'CIRCLE\t' + str(args)
-                      
+            add_circle(edges,float(args[0]),float(args[1]),float(args[2]),
+                       float(args[3]),0.01)
+            
         elif line == 'hermite':
             print 'HERMITE\t' + str(args)
-            t = make_hermite()
-            generate_curve_coefs(float(args[0]),float(args[2]),
-                                 float(args[4]), float(args[6]))
-            generate_curve_coefs(float(args[0]),float(args[2]),
-                                 float(args[4]), float(args[6]))
-            '''float(args[0]), float(args[1]),
-                             float(args[2]), float(args[3]),
-                             float(args[4]), float(args[5]),
-                             float(args[6]), float(args[7]))
-            '''
+            add_curve(edges,float(args[0]),float(args[1]),float(args[2]),
+                      float(args[3]),float(args[4]),float(args[5]),
+                      float(args[6]), float(args[7]),0.01,'hermite')
             
         elif line == 'bezier':
             print 'BEZIER\t' + str(args)
-            t = make_bezier()
-            '''float(args[0]), float(args[1]),
-                             float(args[2]), float(args[3]),
-                             float(args[4]), float(args[5]),
-                             float(args[6]), float(args[7]))
-            '''
+            add_curve(edges,float(args[0]),float(args[1]),float(args[2]),
+                      float(args[3]),float(args[4]),float(args[5]),
+                      float(args[6]), float(args[7]),0.01,'bezier')
             
         elif line == 'ident':
             ident(transform)
