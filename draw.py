@@ -7,25 +7,35 @@ def add_circle( points, cx, cy, cz, r, step ):
     theta = 0
     x0 = r * math.cos(theta) + cx
     y0 = r * math.sin(theta) + cy
-    z0 = 0
-    while t <= 1.01:
+    z = 0
+    while s <= 1.01:
         theta = s * 2 * math.pi
         x1 = r * math.cos(theta) + cx
         y1 = r * math.sin(theta) + cy
-        z1 = 0
-        add_edge( points, x0, y0, z0, x1, y1, z1 )
+        add_edge( points, x0, y0, z, x1, y1, z )
         x0 = x1
         y0 = y1
         s+=step
     
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
+    s = step
     if curve_type == 'hermite':
-        s = step
         t = make_hermite()
-        cx = generate_curve_coefs(x0,x1,x2,x3,t)
-        cy = generate_curve_coefs(y0,y1,y2,y3,t)
-        
+    elif curve_type == 'bezier':
+        t = make_bezier()
+    cx = generate_curve_coefs(x0,x1,x2,x3,t)
+    cy = generate_curve_coefs(y0,y1,y2,y3,t)
+    xp = x0
+    yp = y0
+    z = 0
+    while s <= 1.01:
+        x = cx[0][0]*(s**3) + cx[0][1]*(s**2) + cx[0][2]*s + cx[0][3]
+        y = cy[0][0]*(s**3) + cy[0][1]*(s**2) + cy[0][2]*s + cy[0][3]
+        add_edge(points,xp,yp,z,x,y,z)
+        xp = x
+        yp = y
+        s+=step
 
 def draw_lines( matrix, screen, color ):
     if len(matrix) < 2:
